@@ -1,0 +1,8 @@
+rule openscad
+  command = openscad $in -o $out
+
+build stl/cnc3018_dremel_adapter.stl: openscad cnc3018_dremel_adapter/cnc3018_dremel_adapter.scad
+build stl/raspberry_camera_v2_focus_adjust.stl: openscad raspberry_camera_v2_focus_adjust/raspberry_camera_v2_focus_adjust.scad
+build stl/smd_tray.stl: openscad smd_tray/smd_tray.scad
+build stl/vacuum_sensor.stl: openscad vacuum_sensor/vacuum_sensor.scad
+
