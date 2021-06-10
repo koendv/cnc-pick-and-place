@@ -36,7 +36,7 @@ tray_depth = 1.6;
 
 echo (str("tray: ", tray_x , " x ", tray_y, "mm"));
 
-m4_screw_dia = 3.2;
+screw_dia = 4.3; // 4.3mm for m4, 3.2mm for m3
 tab_dia = 12.0;
 
 tab_xdist = ceil(tray_x/tab_pitch)*tab_pitch; // distance along x axis between tab holes 
@@ -119,16 +119,16 @@ module smd_tray_holes() {
     }
     // mounting tabs
     translate([tab_x1, tab_y1, -eps1])
-    cylinder(d = m4_screw_dia, h = tray_z+eps2);
+    cylinder(d = screw_dia, h = tray_z+eps2);
     
     translate([tab_x2, tab_y1, -eps1])
-    cylinder(d = m4_screw_dia, h = tray_z+eps2);
+    cylinder(d = screw_dia, h = tray_z+eps2);
     
     translate([tab_x1, tab_y2, -eps1])
-    cylinder(d = m4_screw_dia, h = tray_z+eps2);
+    cylinder(d = screw_dia, h = tray_z+eps2);
 
     translate([tab_x2, tab_y2, -eps1])
-    cylinder(d = m4_screw_dia, h = tray_z+eps2);
+    cylinder(d = screw_dia, h = tray_z+eps2);
     
     // fiducials
     translate([0,0,tray_z-fid_z]) {
