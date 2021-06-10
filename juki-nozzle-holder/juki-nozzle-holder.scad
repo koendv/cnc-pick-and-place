@@ -2,6 +2,7 @@
  * magazine to hold juki smd nozzles
  */
 
+include <util.scad>
 use <juki502.scad>;
 
 eps1 = 0.01;
@@ -40,8 +41,24 @@ zslot = 1.0+eps2;
 
 xc = wall+(x4-wall)/2; // center of nozzle
 
+// screws
+m4_screw_dia = 4.6;
+m4_washer_dia = 9.0;
+
+// fiducials.
+// pcb 16mm dia with a fiducial at the centre.
+// the same fiducials can also be used in the nozzle holder.
+
+fid_d1=16.0+0.4;
+fid_d2=16.0+2*wall;
+fid_d3=16.0-2*wall;
+fid_z=1.6; // pcb height
+
+//tabs
+tab_width = m4_washer_dia + fid_d2 + 2 * wall;
+
 module array(count) {
-    for ( i = [0:1:count])
+    for ( i = [0:1:count-1])
         translate([0, i*pitch, 0])
         children();
 }
@@ -57,8 +74,9 @@ module juki_holder() {
         translate([-x1, -pitch-wall/2, -z1])
         cube([3*x1, pitch, 3*z1]);
     }
+    tabs();
 }
-    
+
 module juki_holder_body() {
     cube([x1, pitch, wall]);
     cube([wall, pitch, z1]);
@@ -69,17 +87,16 @@ module juki_holder_body() {
 module juki_holder_holes() {
     lip1_hole();
     lip2_hole();
-    screw_hole();
 }
 
 module lip1_body () {
     translate([0,-y1/2,z2]) {
-        hull() {    
+        hull() {
             linear_extrude(z4)
             offset(r1)
             offset(-r1)
             square([x3, y1]);
-            
+
             linear_extrude(z3)
             offset(r1)
             offset(-r1)
@@ -97,7 +114,7 @@ module lip1_body () {
 module lip1_hole() {
     translate([xc, yc, z2-eps1])
     cylinder(d=d1, h=z4+eps2);
-   
+
     translate([xc,yc,z2+z4-zslot+eps1])
     cylinder(d1=d2, d2=d2+2*zslot, h=zslot); // 45 degree slope
 }
@@ -109,7 +126,7 @@ module lip2_body() {
             offset(r1)
             offset(-r1)
             square([x5, y2]);
-            
+
             translate([0,0,z4-z3])
             linear_extrude(z3)
             offset(r1)
@@ -119,7 +136,7 @@ module lip2_body() {
         cube([xc,pitch,z4]);
     }
     translate([0, -wall/2, 0])
-    linear_extrude(z1) 
+    linear_extrude(z1)
     union() {
         offset(wall/3)
         offset(-wall/3)
@@ -131,18 +148,50 @@ module lip2_body() {
 module lip2_hole() {
     translate([xc, yc, z5-eps1])
     cylinder(d=d4, h=z4+eps2);
-    
+
     translate([xc,yc,z1-zslot+eps1])
     cylinder(d1=d2, d2=d2+2*zslot, h=zslot); // 45 degree slope
 }
 
-module screw_hole() {
-    translate([xc, yc+pitch/4, -eps1])
+module tabs() {
+    translate([0, -tab_width - wall/2 + eps1, 0])
+    translate([0, tab_width, 0])
+    mirror([0, 1, 0])
+    tab();
+    translate([0, slots * pitch + wall/2 - eps1, 0])
+    tab();
+}
+
+module tab() {
+    difference() {
+        tab_body();
+        tab_hole();
+    }
+}
+
+module tab_body() {
+    translate([0, -wall/2, 0])
+    cube([x1, tab_width, wall]);
+    translate([0, -wall, 0])
+    hull () {
+        cube([wall, wall/2 + tab_width, wall]);
+        cube([wall, wall, z1]);
+    }
+}
+
+module tab_hole() {
+    // m4 screw
+    translate([xc, wall + m4_washer_dia/2, -eps1])
     rotate([0, 0, 180/8])
-    cylinder(d=3.4, h= z1, $fn = 8, center=true); // M3
-    translate([xc, yc-pitch/4, -eps1])
-    rotate([0, 0, 180/8])
-    cylinder(d=3.4, h= z1, $fn = 8, center=true); // M3   
+    cylinder_outer(d=m4_screw_dia, h=2*wall, fn = 8);
+
+    // fiducial
+    translate([xc, wall + m4_washer_dia + fid_d2/2, -eps1])
+    rotate([0, 0, 180/8]) {
+        translate([0, 0, wall - fid_z])
+        cylinder_outer(d=fid_d1, h=2*wall, fn = 8);
+        cylinder_outer(d=fid_d3, h=2*wall, fn = 8);
+    }
 }
 
 module printer_ready() {
@@ -156,11 +205,11 @@ module assembly() {
     if(1)
     translate([x3,yc,z5])
     juki502_ring_down();
-    
+
     if(1)
     translate([xc,yc+pitch,z5])
     juki502_ring_down();
-    
+
     if(1)
     translate([xc,yc+2*pitch,z2+z4-zslot])
     juki502_ring_up();
@@ -169,3 +218,5 @@ module assembly() {
 //juki_holder();
 assembly();
 //printer_ready();
+
+//not truncated
