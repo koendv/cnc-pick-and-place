@@ -1,10 +1,11 @@
 /*
  * Hex screwdriver bit to adjust focus of raspberry pi camera v2.
+ * Adjust clearance_fit so bit measures 6.31-6.35mm, 0.2485-0.25" across flats.
  */
 
 eps1 = 0.001;
 $fn = 64;
-clearance_fit = 0.2; // Increase if hex bit does not fit screwdriver, decrease if hex bit waggles.
+clearance_fit = 0.1; // Increase if hex bit does not fit screwdriver, decrease if hex bit waggles.
 
 // to fit camera lens
 driver_dia1 = 8.8;
