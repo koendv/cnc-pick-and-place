@@ -1,3 +1,7 @@
+// sylwych's thread library.
+// http://www.thingiverse.com/thing:8793
+// https://github.com/syvwlch/Thingiverse-Projects/tree/master/Threaded%20Library
+
 
 function norm(vector) = sqrt(vector[0]*vector[0]+vector[1]*vector[1]+vector[2]*vector[2]); 
 
