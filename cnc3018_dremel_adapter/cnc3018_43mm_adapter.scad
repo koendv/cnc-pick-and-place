@@ -1,6 +1,6 @@
 /* 
- * adapter for dremel on cnc3018 52mm diameter z-carriage
- * dremel 398 - spindle ends approx. 28mm below adapter top.
+ * adapter for 43mm to cnc3018 52mm diameter z-carriage
+ * this fits e.g. an aluminum dremel to 43mm "eurohals" adapter
  */
 
 eps1 = 0.001;
