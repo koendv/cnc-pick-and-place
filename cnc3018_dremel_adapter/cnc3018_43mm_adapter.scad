@@ -49,7 +49,7 @@ module dremel_cnc3018_holes() {
         
         translate([0, 0, -eps1]) {
             // hole for 43mm "eurohals"
-            cylinder(d = d2, h = h2);
+            cylinder(d = d2, h = 2 * h2, center = true);
             // slot
             cube([d1, slot_w, h2]);
         }
