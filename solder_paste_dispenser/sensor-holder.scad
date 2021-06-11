@@ -6,14 +6,14 @@ include <util.scad>
  */
 
 adapter_height = 15.0;
-adapter_int_dia = syringe_ext_dia + 2 * clearance_fit;
+adapter_int_dia = syringe_ext_dia;
 adapter_dia = adapter_int_dia + 20.0;
 
 sensor_width = 11.53;
 sensor_offset = syringe_ext_dia/2+sensor_width/2+3*clearance_fit;
 
 screw_hole_height = 5.0;
-adapter_split = 0.8;
+adapter_split = 2.0;
     
 screw_x_offset = syringe_ext_dia/2 + (adapter_dia - syringe_ext_dia)/4;
 screw_y_offset = 10;
@@ -48,7 +48,7 @@ module adapter_body() {
 module adapter_holes() {
     // hole for syringe body
     translate([0, 0, -adapter_height/2])
-    cylinder(d = adapter_int_dia, h = 2*adapter_height);
+    cylinder_outer(d = adapter_int_dia, h = 2*adapter_height, fn = 6);
     cube([2*adapter_dia, adapter_split, 3*adapter_height], center=true);
     screw_holes();
 }
@@ -222,12 +222,22 @@ module sensor_adapter_b() {
     }
 }
 
-if (0)
-translate([0,sensor_offset,0])
-3dtouch();
+module syringe_body() {
+    translate([0, 0, - adapter_height/2])
+    cylinder(d = syringe_ext_dia, h = 2 * adapter_height);
+}
 
-sensor_adapter();
+module assembly() {
+    sensor_adapter();
+    translate([0,sensor_offset,0])
+    3dtouch();
+    syringe_body();
+}
+
+
+//sensor_adapter();
 //sensor_adapter_a();
 //sensor_adapter_b();
+assembly();
 
 // not truncated
