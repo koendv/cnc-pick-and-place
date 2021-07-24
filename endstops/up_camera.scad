@@ -127,9 +127,9 @@ module screw_body() {
 
 module screw_holes() {
     translate([0,-screw_dist/2,0])
-    cylinder(d=3.2+nozzle_width,h=3*floor_z,center=true);
+    cylinder(d=4.2+nozzle_width,h=3*floor_z,center=true);
     translate([0,screw_dist/2,0])
-    cylinder(d=3.2+nozzle_width,h=3*floor_z,center=true);
+    cylinder(d=4.2+nozzle_width,h=3*floor_z,center=true);
 }
 
 up_facing_camera();
