@@ -4,7 +4,8 @@
 
  /*
   * The optocoupler is a RepRap with TCST2103 on 1.6mm pcb.
-  * Other (bigger) models of optocouplers may or may not fit.
+  * TCST2103 clones may or may not fit.
+  * Try changing tweak_optocoupler_pos, or replace the optocoupler with a TCST2103.
   */
 
  include <util.scad>
@@ -71,11 +72,14 @@ optocoupler_pcb_y = 10.5 + clearance_fit;
 optocoupler_pcb_z = 33.0 + clearance_fit;
 optocoupler_pillar = 1.6;
 
+tweak_optocoupler_pos = 0.0; // tweak for optocoupler x position, e.g. if not using TCST2103.
+// tweak_optocoupler_pos = 1.5; // moves optocoupler 1.5mm away from pnp axis.
+
 optocoupler_w = 10.0;
 
-optocoupler_x = 8.0;
+optocoupler_x = 8.0 + tweak_optocoupler_pos;
 optocoupler_z = vane_z;
-optocoupler_pcb_x1 = 23.0 - 10.5/2;
+optocoupler_pcb_x1 = 23.0 - 10.5/2 + tweak_optocoupler_pos;
 
 m3_screw_dia = 3.2;
 m3_washer_dia = 5.5;
